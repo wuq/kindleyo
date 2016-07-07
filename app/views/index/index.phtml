@@ -1,0 +1,78 @@
+				<!--新上架 start-->
+				<div class="block">
+					<div class="ht">
+						<span class="t">最新上架</span> <a href="/book/list/cate/new">查看更多»</a>
+						<div class="screen"><a class="prev"></a>&nbsp;<a class="next"></a></div>
+						<div class="slide"><span id="s1">1</span>/<span>4</span></div>
+					</div>
+					<div class="hb">
+						<ul>
+							<?php foreach($this->zx as $x){?>
+							<li>
+								<div class="cover">
+									<a href="/book/view/id/<?php echo $x['id'];?>" title="<?php echo $x['subject'];?>">
+									<img src="<?php echo $x['cover'];?>" alt="<?php echo $x['subject'];?>"/></a>
+								</div>
+								<div class="info">
+									<div class="title"><a href="/book/view/id/<?php echo $x['id'];?>" title="<?php echo $x['subject'];?>"><?php echo $x['subject'];?></a></div>
+									<div class="author"><a href="/me/index/index/id/<?php echo $x['user_id'];?>"><?php echo $GLOBALS['USER'][$x['user_id']];?></a></div>
+								</div>
+							</li>
+							<?php }?>
+						</ul>
+					</div>
+				</div>
+				<!--新上架 end-->
+				<div class="block t40 ad">
+					<a href="#"><img src="/static/img/ad2.jpg"/></a>
+				</div>
+				<!--推荐 start-->
+				<div class="block t40">
+					<div class="ht tj">
+						<span class="t">热门推荐</span> <a href="/book/list">更多推荐</a>
+					</div>
+					<div class="tb">
+						<ul>
+							<?php foreach($this->tj as $t){?>
+							<li>
+								<div class="cover">
+									<a href="/book/view/id/<?php echo $t['id'];?>" title="<?php echo $t['subject'];?>">
+									<img src="<?php echo $t['cover'];?>" alt="<?php echo $t['subject'];?>"/></a>
+								</div>
+								<div class="info">
+									<div class="title"><a href="/book/view/id/<?php echo $t['id'];?>" title="<?php echo $t['subject'];?>"><?php echo $t['subject'];?></a></div>
+									<div class="author">发布者:<?php echo $GLOBALS['USER'][$t['user_id']];?></div>
+									<div class="comment"><img src="/static/img/quote.png"/> <?php echo mb_substr(strip_tags($t['des']), 0, 36, 'utf-8').'...';?></div>
+								</div>
+							</li>
+						<?php }?>
+						</ul>	
+					</div>
+				</div>
+				<!--推荐 end-->
+				<div class="block t40 ad">
+					<a hrf="#"><img src="/static/img/ad3.jpg"/></a>
+				</div>
+				<!--书单 start-->
+				<div class="block t40">
+					<div class="ht tj">
+						<span class="t">热门书单</span> <a href="#">更多书单</a>
+					</div>
+					<div class="sd">
+						<ul>
+							<?php for($i=0;$i<2;$i++){?>
+							<li>
+								<div class="cover"><img src="/static/img/tx.jpg"/></div>
+								<div class="info">
+									<div class="title">&nbsp;<a href="#">萧敬腾-来自星星的萧氏味道来自星星的萧氏味道</a></div>
+									<div class="author">共有23本图书 来自 <a href="#">lygus</a></div>
+									<div class="describe">
+										曾经看过黄小琥的演唱会表演，唱的是蔡依林的<舞娘>。当然唱功了得表演经验丰富的如她，跳唱的气息不乱的完美完成。但非常难听，基本上就是“孙二娘打鼓”。后来，很多时候听张靓颖的快歌，都有类似的感觉。比如——“那不会是爱吧呀咿呀咿呀~”.
+									</div>
+								</div>
+							</li>
+							<?php }?>
+						</ul>
+					</div>
+				</div>	
+				<!--书单 end-->

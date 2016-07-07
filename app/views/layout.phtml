@@ -1,0 +1,64 @@
+<!--
+weixin:ACGTaste
+-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="language" content="zh-CN"/>
+		<meta name="robots" content="all">
+		<meta name="author" content="lygus0@gmail.com">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0">
+		<meta name="Copyright" content="未来道具研究所">		
+		<meta name="Keywords" content="<?php echo $this->layout['keyword'];?>">
+		<meta name="Description" content="<?php echo $this->layout['description'];?>">
+		<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"/>		
+		<link rel="stylesheet" type="text/css" href="/static/css/style.css" />
+		<?php if(in_array('j10', $this->layout['inc'])){?>
+		<script src="/static/js/jquery-1.10.2.js"></script>		
+		<?php } if(in_array('sti', $this->layout['inc'])){?>
+		<script type="text/javascript" src="/static/js/stickUp.js"></script>	
+		<?php } if(in_array('up', $this->layout['inc'])){?>
+		<script type="text/javascript" src="/static/js/jquery.upload.v2.js"></script>
+		<?php } if(in_array('ke', $this->layout['inc'])){?>
+		<script charset="utf-8" src="/static/kindeditor-4.1.10/kindeditor-min.js"></script>
+		<script charset="utf-8" src="/static/kindeditor-4.1.10/lang/zh_CN.js"></script>
+		<?php }?>
+		<title><?php echo $this->layout['meta_title'];?></title>
+	</head>
+
+	<body>
+		<?php if($this->layout['mod'] != 'admin'){?>
+		<header>
+			<div class="nav-left">
+				<a href="/">图书</a>
+				<a href="#">漫画</a>
+			</div>
+			<div class="nav-right">
+				<?php if(Yaf_Session::getInstance()->get('u_mail')){?>
+					<a href="/me/index/index"><?php echo Yaf_Session::getInstance()->get('u_nick');?></a>
+					<a href="/user/logout">退出</a>
+				<?php }else{?>
+					<a href="/user/login">登录</a>
+					<a href="/user/reg">注册</a>
+				<?php }?>
+			</div>
+		</header>
+		<?php 
+			}if($this->layout['mod'] == 'book'){
+				include 'book.layout.phtml';
+			}elseif($this->layout['mod'] == 'anime'){
+				include 'anime.layout.phtml';
+			}elseif($this->layout['mod'] == 'up'){
+				include 'up.layout.phtml';
+			}else{
+				echo $this->content;
+			}
+			if($_SERVER['SERVER_NAME'] == 'www.kindleyo.com'){
+		?>
+		<div style="display:none"><script type="text/javascript" src="http://tajs.qq.com/stats?sId=37065306" charset="UTF-8"></script></div>
+		<?php }?>
+	</body>
+</html>

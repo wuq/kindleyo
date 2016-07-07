@@ -1,0 +1,52 @@
+				<div class="l-down">
+					<div class="d-t">在哪下载这本书?</div>
+					<?php foreach($this->layout['link'] as $l){?>
+					<div class="d-li"><a href="/file/down?u=<?php echo urlencode(Common::encrypt($l['id'].'|'.time(), 'E', 'kindle'));?>"><?php echo $l['uname'];?></a></div>
+					<?php }?>
+				</div>
+				
+				<div class="tg">
+					<div class="ht tj">
+						<span class="t">贡献图书</span>
+					</div>
+					<div class="des">
+						请将你手中的电子书分享给更多人。 内容领域不限，唯一要求是质量优秀。 
+						<p><a href="/submit/book">上传<i class="arrow"></i></a></p>
+					</div>
+				</div>
+				
+				<div class="dale ad t20">
+					<iframe src="http://rcm-cn.amazon-adsystem.com/e/cm?t=kindleyo-23&o=28&p=12&l=ur1&category=camera&banner=1V5NGA7YCV3XED7TEJ82&f=ifr" width="300" height="250" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0"></iframe>
+				</div>
+				
+				<div class="l-user">
+					<div class="l-u-t">谁在关注这本书?</div>
+					<div class="l-u-des">
+						<ul>
+							<?php foreach(Common::booklog($this->layout['bid']) as $log){?>
+							<li>
+								<img src="<?php echo $log['user_id']? $GLOBALS['AVATAR'][$log['user_id']].'_48.jpg' : '/static/img/guest.jpg';?>"/>
+								<div class="info">
+									<a href="#"><?php echo $log['user_id']? $GLOBALS['USER'][$log['user_id']] : 'Guest';?></a>
+									<span><?php echo $log['ltext'];?> 了这本书 <?php echo substr($log['ldate'], 0, 10);?></span>
+								</div>
+							</li>
+							<?php }?>
+						</ul>
+					</div>
+				</div>
+				
+				<div class="ct">
+					<div class="c1 x">
+						<div class="n"><?php echo Common::countBook('num');?></div>
+						<div class="f">本图书在看雨分享</div>
+					</div>
+					<div class="c1">
+						<div class="n"><?php echo Common::countBook('down');?></div>
+						<div class="f">次下载</div>
+					</div>
+				</div>
+				
+				<div class="dale t40 ad">
+					<iframe src="http://rcm-cn.amazon-adsystem.com/e/cm?t=kindleyo-23&o=28&p=12&l=ur1&category=game&banner=10YADJMDKSMZDNX62F82&f=ifr" width="300" height="250" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0"></iframe>
+				</div>

@@ -1,0 +1,142 @@
+<?php 
+if(!Common::checkLogin()){
+	include APP_PATH.'/views/_login.phtml';
+}else{
+?>
+
+<div class="well fg-darkTeal">
+ <h3><span>全局状态:</span></h3>
+<div class="info">        
+<!--服务器相关参数-->
+<table cellpadding="0" cellspacing="0">
+  <tr>
+    <td>服务器域名/IP地址 </td>
+    <td colspan="3"><?php echo $_SERVER['HTTP_HOST'];?>(<?php echo @gethostbyname($_SERVER['HTTP_HOST']) ?>:<?php echo $_SERVER['SERVER_PORT'];?>)&nbsp;&nbsp;&nbsp;&nbsp;客户端IP:<?php echo @$_SERVER['REMOTE_ADDR'];?></td>
+  </tr>  
+  <tr>
+    <td>服务器核心</td>
+    <td><?php echo php_uname('s')?></td>
+    <td>服务器引擎</td>
+    <td><?php echo $_SERVER['SERVER_SOFTWARE'];?></td>
+  </tr>
+  <tr>
+	  <td>计算机名称</td>
+	  <td><?php echo php_uname('n')?></td>
+	  <td>网站根目录</td>
+	  <td><?php echo realpath('.');?></td>
+	</tr>
+  <tr>
+    <td>计算机语言</td>
+    <td><?php echo strtoupper($_SERVER['HTTP_ACCEPT_LANGUAGE']);?></td>
+		<td>网站根网址</td>
+		<td><?php echo 'http://'.$_SERVER['HTTP_HOST'].str_replace('/'.basename($_SERVER['PHP_SELF']),'',$_SERVER['PHP_SELF']);?></td>
+	</tr>
+  <tr>
+    <td>CPU中央处理器:</td>
+    <td colspan="3"><?php echo getenv('PROCESSOR_IDENTIFIER') .', Processors '. getenv('NUMBER_OF_PROCESSORS');?></td>
+  </tr>	
+</table>
+</div>  
+              
+<h3><span>服务器数据:</span></h3>
+<div class="info">
+      <table class="content">
+        <tr>
+          <td>网站磁盘大小</td>
+          <td id="diskTotal"><?php echo number_format(disk_total_space("D:") / 1073741824,2)?> GB</td>
+          <td>网站可用空间</td>
+          <td><span class="f-red" id="diskFree"><?php echo number_format(disk_free_space("D:") / 1073741824,2);?> GB</span></td>
+        </tr>      
+        <tr>
+          <td width="18%">服务器时间</td>
+          <td id="time"><?php echo date('Y 年 m 月 d 日 H:i:s'); ?></td>
+          <td width="18%">客户端时间</td>
+          <td id="clienttime"><?php echo date('Y 年 m 月 d 日 H:i:s'); ?></td>
+        </tr>
+      </table>     
+</div>
+                            
+<h3><span>服务器参数:</span></h3>
+<div class="info">     
+<table width="100%" cellpadding="3" cellspacing="0" align="center">
+  <tr>
+    <td>PHP运行方式:</td>
+    <td><?php echo strtoupper(php_sapi_name());?></td>
+    <td width="32%">PHP版本(php_version):</td>
+    <td width="32%"><?php echo PHP_VERSION;?></td>
+  </tr>
+  <tr>
+    <td>PHP内存限制(memory_limit):</td>
+    <td><?php echo get_cfg_var("memory_limit");?></td>
+    <td>PHP上传限制(post_max_size):</td>
+    <td><?php echo get_cfg_var("post_max_size");?></td>
+  </tr>  
+  <tr>
+    <td>脚本超时时间(max_execution_time):</td>
+    <td><?php echo get_cfg_var("max_execution_time");?>秒</td>
+    <td>socket超时时间(default_socket_timeout):</td>
+    <td><?php echo get_cfg_var("default_socket_timeout");?>秒</td>
+  </tr>  
+  <tr>
+    <td>数据转义(magic_quotes_gpc):</td>
+    <td><?php echo get_cfg_var("magic_quotes_gpc") ? '<font color="green">√</font>' : '<font color="red">×</font>';?></td>
+    <td>自定义全局变量(register_globals):</td>
+    <td><?php echo get_cfg_var("register_globals") ? '<font color="green">√</font>' : '<font color="red">×</font>';?></td>
+  </tr>  
+  
+  <tr>
+    <td>Session 支持:</td>
+    <td><?php echo function_exists('session_start') ? '<font color="green">√</font>' : '<font color="red">×</font>';?></td>
+    <td>Cookie 支持:</td>
+    <td><?php echo isset($_COOKIE)?'<font color="green">√</font>' : '<font color="red">×</font>';?></td>
+  </tr>
+  <tr>
+    <td>MySQL 支持(版本):</td>
+    <td><?php echo function_exists('mysql_get_server_info') ? '<font color="green">√</font> 版本:'.mysql_get_server_info() : '<font color="red">×</font>';?></td>
+    <td>SQL Server 支持:</td>
+    <td><?php echo function_exists('mssql_close') ? '<font color="green">√</font>' : '<font color="red">×</font>';?></td>
+  </tr>  
+  <tr>
+    <td>SQL Lite 支持:</td>
+    <td><?php echo function_exists('sqlite_close') ? '<font color="green">√</font> 版本:'.sqlite_libversion() : '<font color="red">×</font>';?></td>
+    <td>Oracle 数据库:</td>
+    <td><?php echo function_exists('ora_close') ? '<font color="green">√</font>' : '<font color="red">×</font>';?></td>    
+  </tr>    
+  <tr>
+    <td>CURL 支持</td>
+    <td><?php echo function_exists('curl_init') ? '<font color="green">√</font>' : '<font color="red">×</font>';?>
+	</td>
+    <td>Socket 支持:</td>
+    <td><?php echo function_exists('socket_accept') ? '<font color="green">√</font>' : '<font color="red">×</font>';?></td>
+  </tr>
+  <tr>
+    <td>GD库 支持:</td>
+    <td><?php echo function_exists('gd_info') ? '<font color="green">√</font>' : '<font color="red">×</font>';?></td>
+    <td>eAccelerator 支持:</td>
+    <td><?php echo phpversion('eAccelerator') ? '<font color="green">√</font> 版本:'.phpversion('eAccelerator') : '<font color="red">×</font>';?></td>
+  </tr>
+  <tr>
+    <td>Zend :</td>
+    <td><?php $zend_version = zend_version(); echo (empty($zend_version) ? '<font color="red">×</font>' : '<font color="green">√</font> 版本'.$zend_version); ?></td>
+    <td>Zend Optimizer:</td>
+    <td><?php echo defined("OPTIMIZER_VERSION") ? '<font color="green">√</font> 版本'. OPTIMIZER_VERSION : '<font color="red">×</font>';?></td>
+  </tr>  
+  <tr>
+    <td width="32%">Memcache 支持:</td>
+    <td width="18%"><?php echo ((phpversion('Memcache')) != '' ? '<font color="green">√</font> 版本:'.phpversion('Memcache') : '<font color="red">×</font>'); ?></td>  
+    <td width="32%">XCache 支持:</td>
+    <td width="18%"><?php echo ((phpversion('XCache')) != '' ? '<font color="green">√</font> 版本:'.phpversion('XCache') : '<font color="red">×</font>'); ?></td>
+  </tr>  
+  <tr>
+    <td width="32%">FTP 支持:</td>
+    <td width="18%"><?php echo function_exists('ftp_login') ? '<font color="green">√</font>' : '<font color="red">×</font>';?></td>
+    <td width="32%">XML解析 支持:</td>
+    <td width="18%"><?php echo function_exists('xml_set_object') ? '<font color="green">√</font>' : '<font color="red">×</font>';?></td>
+  </tr>
+</table>
+</div>
+
+</div>
+
+
+<?php }?>

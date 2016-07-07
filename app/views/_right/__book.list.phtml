@@ -1,0 +1,59 @@
+
+			<div class="dale ad rv">
+					<iframe src="http://rcm-cn.amazon-adsystem.com/e/cm?t=kindleyo-23&o=28&p=12&l=ur1&category=office&banner=1CSPN309RMMN8R84WA82&f=ifr" width="300" height="250" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0"></iframe>
+				</div>
+				
+				<div class="tg rv">
+					<div class="ht tj">
+						<span class="t">贡献图书</span>
+					</div>
+					<div class="des">
+						请将你手中的电子书分享给更多人。 内容领域不限，唯一要求是质量优秀。 
+						<p><a href="/submit/book">上传<i class="arrow"></i></a></p>
+					</div>
+				</div>
+				
+				<div class="l-tag rv">
+					<div class="ht tj">
+						<span class="t">分类浏览</span>
+					</div>
+					<div class="des">
+						<?php foreach(Common::category(1) as $cate){?>
+						<a href="/book/list/cate/<?php echo $cate['ctag'];?>" title="<?php echo $cate['cname'];?>"><?php echo $cate['cname'];?></a>
+						<?php }?>
+					</div>
+				</div>
+				
+				<div class="sti-top"></div>
+				<div class="stick"><!--stickup-->
+				<div class="rmtj">
+					<div class="ht tj">
+						<span class="t">精品推荐</span>
+					</div>
+					<div class="des">
+						<ul>
+							<?php  foreach(Common::recommend($this->layout['cate']) as $rec){?>
+							<li>
+								<a href="/book/view/id/<?php echo $rec['id'];?>" title="<?php echo $rec['subject'];?>"><img src="<?php echo $rec['cover'];?>"/></a>
+								<p><?php echo $rec['subject'];?></p>
+							</li>
+							<?php }?>
+						</ul>
+					</div>
+				</div>
+				
+				<div class="ct">
+					<div class="c1 x">
+						<div class="n"><?php echo Common::countBook('num');?></div>
+						<div class="f">本图书在看雨分享</div>
+					</div>
+					<div class="c1">
+						<div class="n"><?php echo Common::countBook('down');?></div>
+						<div class="f">次下载</div>
+					</div>
+				</div>
+				
+				<div class="dale t40 ad">
+					<iframe src="http://rcm-cn.amazon-adsystem.com/e/cm?t=kindleyo-23&o=28&p=12&l=ur1&category=books&banner=0FED4K8ZGXZZ2C2JTVR2&f=ifr" width="300" height="250" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0"></iframe>
+				</div>
+				</div><!--stickup-->

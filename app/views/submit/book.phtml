@@ -1,0 +1,175 @@
+<?php if($this->setp == 1){?>
+			<script>
+			KindEditor.ready(function(K) {
+				K.each({
+					'plug-align' : {
+						name : '对齐方式',
+						method : {
+							'justifyleft' : '左对齐',
+							'justifycenter' : '居中对齐',
+							'justifyright' : '右对齐'
+						}
+					},
+					'plug-order' : {
+						name : '编号',
+						method : {
+							'insertorderedlist' : '数字编号',
+							'insertunorderedlist' : '项目编号'
+						}
+					},
+					'plug-indent' : {
+						name : '缩进',
+						method : {
+							'indent' : '向右缩进',
+							'outdent' : '向左缩进'
+						}
+					}
+				},function( pluginName, pluginData ){
+					var lang = {};
+					lang[pluginName] = pluginData.name;
+					KindEditor.lang( lang );
+					KindEditor.plugin( pluginName, function(K) {
+						var self = this;
+						self.clickToolbar( pluginName, function() {
+							var menu = self.createMenu({
+									name : pluginName,
+									width : pluginData.width || 100
+								});
+							K.each( pluginData.method, function( i, v ){
+								menu.addItem({
+									title : v,
+									checked : false,
+									iconClass : pluginName+'-'+i,
+									click : function() {
+										self.exec(i).hideMenu();
+									}
+								});
+							})
+						});
+					});
+				});
+				K.create('#contentqq', {
+					themeType : 'qq',
+					items : [
+						'bold','fontsize','forecolor','link'
+					],
+					afterBlur: function(){this.sync();}
+				});
+			});
+		</script>
+			<div class="step">
+				<ol>
+					<li class="active">添加作品描述>></li>
+					<li>上传作品>></li>
+					<li>完成</li>
+				</ol>
+			</div>
+			<form id="sform">
+			<div class="up-title">作品名称<em>*</em></div>
+			<div class="up-field"><input id="subject" name="subject" type="text" placeholder="最好使用原作的书名" value="<?php echo $this->find['subject'];?>"/><div id="s-msg" class="msg"></div></div>
+			<div class="up-title">作品分类<em>*</em></div>
+			<div class="up-field"><select name="cate_id"><?php foreach($this->cate as $k => $v){ if($k == $this->find['cate_id']){$s = 'selected';}else{$s = '';} echo '<option value='.$k.' '.$s.'>'.$v.'</option>';}?></select></div>
+			<div class="up-title">添加封面<em>*</em></div>
+			<div class="up-field"> <input type="button" value="上传" id="upload"/><img src="<?php echo $this->find['cover'];?>" id="thumb"/><input id="hdcover" name="cover" type="hidden" value="<?php echo $this->find['cover'];?>"/><div id="c-msg" class="msg"></div></div>			
+			<div class="up-title">作品描述<em>*</em></div>
+			<div class="up-field"><textarea id="contentqq" name="des" placeholder="添加清晰简短的描述,让大家更快速了解作品的内容"><?php echo $this->find['des'];?></textarea><div id="d-msg" class="msg"></div></div>
+			<input type="hidden" name="id" value="<?php echo $this->id;?>"/>
+			</form>
+			<div class="up-button">
+				<a href="javascript:;" id="step">下一步</a>
+			</div>
+			<script>
+				$("#upload").upload({
+					action: "/submit/cover", 
+					fileName: "file",   
+					params: {},        
+					accept: ".jpg,.png",    
+					complete: function (msg) {
+						if('ERR' != msg){
+							$('#thumb').attr('src', msg);
+							$('#hdcover').val(msg);
+						}
+					}
+				});
+				$('#step').click(function(){
+					if(!$('#subject').val()){
+					$('#s-msg').html('不能为空');return;
+					}else{$('#s-msg').html('');}
+					if(!$('#hdcover').val()){
+						$('#c-msg').html('请上传封面');return;
+					}else{$('#c-msg').html('');}					
+					if(!$('#contentqq').val()){
+						$('#d-msg').html('写点什么吧');return;
+					}else{$('#d-msg').html('');}
+					$.ajax({
+						cache: false,
+						type: "POST",
+						url:"/submit/book",
+						data:$('#sform').serialize(),
+						async: false,
+						success: function(msg) {
+							switch(parseInt(msg)){
+								case 1: $('#s-msg').html('请填写标题');break;
+								case 2: $('#c-msg').html('请上传封面');break;
+								case 3: $('#d-msg').html('请添加描述');break;
+								case 4: window.location.href='/submit/book';break;
+							}
+						}
+					});
+				});
+			</script>
+<?php } if($this->setp == 2){?>
+			<div class="step">
+				<ol>
+					<li class="active">添加作品描述>></li>
+					<li class="active">上传作品>></li>
+					<li>完成</li>
+				</ol>
+			</div>
+			<form id="sform" method="post" action="http://up.qiniu.com/" enctype="multipart/form-data">
+			<div class="up-title">保存文件名<em>*</em></div>
+			<div class="up-field"><input id="qn-k" name="uname" type="text" placeholder="请使用默认名称"/><div id="b-msg" class="msg"></div></div>
+			<div class="up-title">选择文件<em>*</em></div>
+			<div class="up-field"><input id="qn-f" name="file" type="file"/><div id="f-msg" class="msg"></div></div>			
+			<div class="up-button">
+				<a href="/submit/book/id/<?php echo $this->id;?>" id="step-s">上一步</a>&nbsp;&nbsp;
+				<a href="javascript:;" id="step">上 传</a>
+			</div>
+			<input name="x:book_id" type="hidden" value="<?php echo $this->id;?>"/>
+			<input name="token" type="hidden" value="<?php echo $this->token;?>"/>
+			</form>
+			<input type="hidden" id="err"/>
+			<script>
+				$('#qn-f').change(function(){
+					var n = $(this).val();
+					$('#qn-k').val(n.substr(12, n.length));
+				});
+				
+				$('#step').click(function(){
+					if(!$('#qn-k').val()){
+					$('#b-msg').html('不能为空');
+					return;
+					}else{$('#b-msg').html('');}
+					if(!$('#qn-f').val()){
+						$('#f-msg').html('不能为空');
+						return;
+					}else{$('#f-msg').html('');}
+					$.ajax({
+						cache: false,
+						type: "POST",
+						url:"/submit/file",
+						data:$('#sform').serialize(),
+						async: false,
+						success: function(msg) {
+							switch(msg){
+								case 'bn' : $('#b-msg').html('书名为空');break;
+								case 'bid': $('#c-msg').html('文件为空');break;
+								case 'is' : $('#c-msg').html('文件已上传');break;
+								case 'ok' : $('#sform').submit(); break;
+							}
+						}
+					});
+				});
+							
+			</script>
+<?php }?>			

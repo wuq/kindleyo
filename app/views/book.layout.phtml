@@ -1,0 +1,68 @@
+		
+		<div class="top">
+			<div class="content">
+				<div class="logo"></div>
+				<div class="c-nav">
+					<?php if(strpos($this->layout['url'], 'book') || $this->layout['url'] == '/'){?>
+					<a href="#">名作</a>
+					<a href="#">新品</a>
+					<a href="#">经典</a>
+					<a href="#">原创</a>
+					<?php }?>
+				</div>
+			</div>
+		</div>
+		
+		<div class="content t50"><!--main-->
+			<h2 class="l-t-tag"><?php 
+				if(strpos($this->layout['url'], 'book/list')){echo '标签浏览:'.$this->layout['cate'];}
+				if(strpos($this->layout['url'], 'book/view')){echo $this->layout['cate'];}
+			?></h2>
+			<div class="article">
+			
+			<?php echo $this->content;?>
+				
+			</div><!--article-->
+			
+			
+			
+			<div class="aside">
+				<?php 
+					if(strpos($this->layout['url'], 'book/list')){
+						include '_right/__book.list.phtml';
+					}elseif(strpos($this->layout['url'], 'book/view')){
+						include '_right/__book.view.phtml';
+					}elseif(strpos($this->layout['url'], 'me/')){
+						include '_right/__me.index.phtml';
+					}elseif(strpos($this->layout['url'], 'yo')){
+						include '_right/__yo.index.phtml';	
+					}else{
+						include '_right/__book.index.phtml';
+					}
+				?>
+			</div>
+			
+			
+		</div><!--main-->
+		<div class="content">
+			<div class="footer">
+				<div class="copyright">© 2014 kindleyo.com, internet open library</div>
+				<div class="listen"><a href="/yo/about">关于看雨</a>·<a href="/yo/disclaimer">相关声明</a>·<a href="/yo/advert">广告投放</a>·<a href="/yo/disseminate">帮助推广</a></div>
+			</div>
+			<div class="union">
+	
+				<a href="https://www.upyun.com" target="_blank"><img src='http://upfiles.b0.upaiyun.com/logo/90x45.png' /></a>
+				<a href="https://portal.qiniu.com/signup?code=3lho3jzftg7de" target="_blank"><img src="/static/img/qiniu_logo.png"></a>
+				<a href="http://lygus0.jd-app.com" target="_blank"><img src="/static/img/blog.png"></a>
+				
+			</div>
+		</div>
+		<?php if(false == strpos($this->layout['url'], 'view')){?>
+		<script type="text/javascript">
+		  jQuery(function($) {
+			$(document).ready( function() {
+			  $('.stick').stickUp();
+			});
+		  });
+		</script>
+		<?php }?>

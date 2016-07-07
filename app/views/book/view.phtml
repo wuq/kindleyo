@@ -1,0 +1,109 @@
+				<!--书信息 start-->
+				<div class="block">
+					<div class="l-view">
+						<div class="cover"><img src="<?php echo $find['cover'];?>" alt="<?php echo $find['subject'];?>"/></div>
+						<div class="info">
+							<div class="row">书名:<span><?php echo $find['subject'];?></span></div>
+							<div class="row">发布人:<a href="#"><?php echo $GLOBALS['USER'][$find['user_id']];?></a></div>
+							<div class="row">分类:<span><?php echo $GLOBALS['CATE'][$find['cate_id']];?></span></div>
+							<div class="row">下载数:<span><?php echo $find['downs'];?></span></div>
+							<div class="row">查看数:<span><?php echo $find['views'];?></span></div>
+							<div class="row">发布时间:<span><?php echo substr($find['cdate'], 0, 10);?></span></div>
+						</div>
+					</div>
+				</div>
+				<!--书信息 end-->
+				
+				<!-- JiaThis Button BEGIN -->
+				<div class="block t20" >	
+					<div class="jiathis_style" style="float:right;">
+						<a class="jiathis_button_qzone"></a>
+						<a class="jiathis_button_tsina"></a>
+						<a class="jiathis_button_tqq"></a>
+						<a class="jiathis_button_weixin"></a>
+						<a class="jiathis_button_renren"></a>
+						<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+					</div>
+					<script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js" charset="utf-8"></script>					
+				</div>
+				<!-- JiaThis Button END -->
+				
+				<!--描述 start-->
+				<div class="block t40">
+					<div class="l-des-t">内容简介  · · · · · ·</div>
+					<div class="l-des-i">
+						<?php echo $find['des'];?>
+					</div>
+				</div>
+				<!--描述 end-->
+				
+				<!--推荐单 start-->
+				<div class="block t50">
+					<div class="l-des-t">还发布了  · · · · · ·</div>
+					<div class="l-more t40">
+						<ul>
+							<?php foreach($this->more as $m){?>
+							<li>
+								<a href="/book/view/id/<?php echo $m['id'];?>" title="<?php echo $m['subject'];?>"><img src="<?php echo $m['cover'];?>" alt="<?php echo $m['subject'];?>"/></a>
+								<p><?php echo $m['subject'];?></p>
+							</li>
+							<?php }?>
+						</ul>
+					</div>
+				</div>
+				<!--推荐单 end-->
+				
+				<!--书评 start-->
+				<div class="block t50">
+					<div class="l-des-t">书评  · · · · · ·</div>
+					<div class="l-cmts">
+						<div class="l-ucmt"><textarea id="ccc"></textarea><a href="javascript:;" id="up-cmt">&nbsp;评论</a></div>
+						<div id="cmt-hit"></div>
+							<ul>
+								<?php foreach($this->cmts as $c){?>
+								<li>
+									<div class="cover"><img src="<?php echo $GLOBALS['AVATAR'][$c['user_id']].'_48.jpg';?>"/></div>
+									<div class="info">
+										<div class="title">&nbsp;<a href="#">来自 <?php echo $GLOBALS['USER'][$c['user_id']].'  '.$c['cdate'];?> </a></div>
+										<div class="describe">
+											<?php echo $c['cmt'];?>	
+										</div>
+									</div>
+								</li>
+								<?php }?>
+							</ul>
+					</div>					
+				</div>	
+				<!--书评 end-->
+				
+				<script>
+					$('#up-cmt').click(function(){
+					<?php if(Yaf_Session::getInstance()->get('u_id')){?>
+						var c = $('#ccc').val();
+						if(!c){
+							$('#cmt-hit').html('评论不能为空');
+							return;
+						}else{
+							$('#cmt-hit').html('');
+							$.ajax({
+								cache: false,
+								type: "POST",
+								url:"/book/comment",
+								data:{book:<?php echo $find['id'];?>,cmt:c},
+								async: false,
+								success: function(msg) {
+									switch(parseInt(msg)){
+										case 1: $('#cmt-hit').html('未登录');break;
+										case 2: $('#cmt-hit').html('参数错误');break;
+										case 3: $('#cmt-hit').html('评论为空');break;
+										case 4: $('#cmt-hit').html('请稍等一会');break;
+										case 5: location.reload();break;
+									}
+								}
+							});
+						}
+					<?php }else{?>
+						window.location.href='/user/login';
+					<?php }?>
+					});
+				</script>

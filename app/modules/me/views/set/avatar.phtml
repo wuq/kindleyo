@@ -1,0 +1,37 @@
+
+			<div class="block">
+				<div class="l-des-t">修改头像  · · · · · ·</div>
+					<div class="l-more t20">
+						<div id="altContent">
+							<OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+							codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0"
+							WIDTH="570" HEIGHT="450" id="myMovieName">
+							<PARAM NAME=movie VALUE="/static/face/avatar.swf">
+							<PARAM NAME=quality VALUE=high>
+							<PARAM NAME=bgcolor VALUE=#FFFFFF>
+							<param name="flashvars" value="imgUrl=/static/face/default.jpg&uploadUrl=/me/set/face&uploadSrc=false" />
+							<EMBED src="/static/face/avatar.swf" quality=high bgcolor=#FFFFFF WIDTH="570" HEIGHT="450" wmode="transparent" flashVars="imgUrl=/static/face/default.jpg&uploadUrl=/me/set/face&uploadSrc=false"
+							NAME="myMovieName" ALIGN="" TYPE="application/x-shockwave-flash" allowScriptAccess="always"
+							PLUGINSPAGE="http://www.macromedia.com/go/getflashplayer">
+							</EMBED>
+							</OBJECT>
+						</div>
+					</div>
+				</div>	
+				<script type="text/javascript">
+					function uploadevent(status,picUrl,callbackdata){
+						status += '';
+						switch(status){
+							case '1':
+								var time = new Date().getTime();
+								var tx   = picUrl+'_162.jpg';
+								$('#photo').attr({src:tx});
+								break;
+							case '-1':
+								window.location.reload();
+								break;
+							default:
+								window.location.reload();
+						} 
+					}
+				</script>

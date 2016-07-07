@@ -1,0 +1,24 @@
+<!--新上架 start-->
+				<div class="block">
+					<div class="l-book">
+						<ul>
+							<?php foreach($this->find as $v){?>
+							<li>
+								<div class="cover">
+									<a href="/book/view/id/<?php echo $v['id'];?>" title="<?php echo $v['subject'];?>">
+									<img src="<?php echo $v['cover'];?>" alt="<?php echo $v['subject'];?>"/></a>
+								</div>
+								<div class="info">
+									<div class="title"><a href="/book/view/id/<?php echo $v['id'];?>" title="<?php echo $v['subject'];?>"><?php echo $v['subject'];?></a></div>
+									<div class="author"><a href="#">发布者:<?php echo $GLOBALS['USER'][$v['user_id']];?></a></div>
+									<div class="des"><?php echo mb_strcut(strip_tags($v['des']), 0, 241, 'utf-8').'...';?></div>
+									<div class="state"> <?php echo $v['downs'];?>次下载 &nbsp;&nbsp; <?php echo $v['cmts'];?>次评论</div>
+								</div>
+							</li>
+							<?php }?>
+						</ul>
+						
+					</div>
+					<div class="page"><?php echo $this->page;?></div>
+				</div>
+				<!--新上架 end-->

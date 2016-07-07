@@ -1,0 +1,25 @@
+<div class="step">
+				<ol>
+					<li class="active">添加作品描述>></li>
+					<li class="active">上传作品>></li>
+					<li class="active">完成</li>
+				</ol>
+			</div>
+			<div class="up-field <?php if($this->errcode){echo ' up-err';}else{echo ' up-ok';}?> t100">
+			<?php 
+				if($this->errcode){ 
+					echo $this->errmsg;
+				}else{
+					echo '您的作品已于 '.date('Y-m-d').' 上传成功, 感谢您的分享';
+				}			
+			?>
+			</div>
+			<div class="up-title"></div>
+			<div class="up-field up-des">看雨一直在为更多的人分享好书而努力</div>			
+			<div class="up-button up-btn-ok">
+				<?php if($this->errcode){?>
+				<a href="/submit/book" id="step-ok">&nbsp;上一页&nbsp;</a>&nbsp;&nbsp;<a href="/" id="step-ok">&nbsp;返回首页&nbsp;</a>
+				<?php }else{?>
+				<a href="/" id="step-ok">&nbsp;&nbsp;返回首页&nbsp;&nbsp;</a>
+				<?php }?>
+			</div>

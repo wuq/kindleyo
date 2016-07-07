@@ -1,0 +1,99 @@
+				<div class="me-box">
+					<div class="me-thumb"><img id="photo" src="<?php echo $this->layout['me']['avatar'].'_162.jpg';?>"/></div>
+					<div class="me-info">						
+						<span>门牌:<?php echo $this->layout['me']['id'];?></span>
+						<span><?php echo substr($this->layout['me']['cdate'], 0, 10);?>加入</span>
+						<?php if(Yaf_Session::getInstance()->get('u_id') == $this->layout['me']['id']){?>
+						<span>编辑<a href="/me/set/avatar">头像</a></span>
+						<span>修改<a href="/me/set/pwd">密码</a></span>
+						<?php }else{?>
+						<span>昵称:<?php echo $this->layout['me']['nick'];?></span>
+						<?php }?>
+					</div>
+					<div class="me-line"></div>
+					<div class="me-intro" id="sg1">
+					<span id="s-t"><?php echo $this->layout['me']['sign']; ?></span>
+					<?php if(Yaf_Session::getInstance()->get('u_id') == $this->layout['me']['id']){?>(<a href="#" id="sign">修改</a>)<?php }?>
+					</div>
+					<?php if(Yaf_Session::getInstance()->get('u_id') == $this->layout['me']['id']){?>
+					<div class="me-intro" id="sg2">
+					<textarea id="txa"></textarea>
+					<p><a href="javascript:;" id="s-s">保存</a>&nbsp;&nbsp;<a href="javascript:;" id="s-c">取消</a></p>
+					</div>
+					<?php }?>
+				</div>
+				
+				<div class="tg rv">
+					<div class="ht tj">
+						<span class="t">贡献图书</span>
+					</div>
+					<div class="des">
+						请将你手中的电子书分享给更多人。 内容领域不限，唯一要求是质量优秀。 
+						<p><a href="/submit/book">上传<i class="arrow"></i></a></p>
+					</div>
+				</div>
+				
+				<div class="tag rv">
+					<div class="ht tj">
+						<span class="t">热门标签</span>
+					</div>
+					<div class="des">
+						<?php foreach(Common::category(1) as $cate){?>
+						<a href="/book/list/cate/<?php echo $cate['ctag'];?>" title="<?php echo $cate['cname'];?>"><?php echo $cate['cname'];?></a>
+						<?php }?>
+					</div>
+				</div>
+				<div class="stick"><!--stickup-->
+				
+				<div class="ct">
+					<div class="c1 x">
+						<div class="n"><?php echo Common::countBook('num');?></div>
+						<div class="f">本图书在看雨分享</div>
+					</div>
+					<div class="c1">
+						<div class="n"><?php echo Common::countBook('down');?></div>
+						<div class="f">次下载</div>
+					</div>
+				</div>
+				
+				<div class="dale t40 ad">
+					<iframe src="http://rcm-cn.amazon-adsystem.com/e/cm?t=kindleyo-23&o=28&p=12&l=ur1&category=watch&banner=11EKQQ6MQJWVF3YADB82&f=ifr" width="300" height="250" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0"></iframe>
+
+				</div>
+				</div><!--stickup-->
+				
+				<?php if(Yaf_Session::getInstance()->get('u_id') == $this->layout['me']['id']){?>
+				<script>
+					$('#sign').click(function(){
+						$('#sg1').css({display:'none'});
+						$('#sg2').css({display:'block'});
+					});
+					$('#s-c').click(function(){
+						$('#txa').val('');
+						$('#sg1').css({display:'block'});
+						$('#sg2').css({display:'none'});
+					});
+					$('#s-s').click(function(){
+						if(!$('#txa').val()){
+							$('#sg1').css({display:'block'});
+							$('#sg2').css({display:'none'});
+						}else{
+							$.ajax({
+								cache: false,
+								type: "POST",
+								url:"/me/set/sign",
+								data:{sign:$('#txa').val()},
+								async: false,
+								success: function(msg) {
+									if(msg == 'ok'){
+										$('#s-t').html($('#txa').val());
+										$('#txa').val('');
+									}
+									$('#sg1').css({display:'block'});
+									$('#sg2').css({display:'none'});
+								}
+							});
+						}
+					});
+				</script>
+				<?php }?>

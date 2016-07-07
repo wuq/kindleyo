@@ -1,0 +1,70 @@
+
+		<div class="content t50">
+			<div class="reg-t">用户登录</div>
+			<div class="article">
+				<div class="block">
+					<form id="lform" method="post" >
+						<div class="reg-line">
+							<div class="reg-name">邮箱</div>
+							<div class="reg-ipt"><input type="text" id="mail" name="mail"/></div>
+							<div class="reg-msg" id="m-msg"></div>
+						</div>
+						<div class="reg-line">
+							<div class="reg-name">密码</div>
+							<div class="reg-ipt"><input type="password" id="pwd" name="pwd"/></div>
+							<div class="reg-msg" id="p-msg"></div>
+						</div>
+						<div class="reg-line"></div>
+						<div class="reg-line">
+							<div class="reg-name"></div>
+							<div class="reg-ipt"><a href="#"><a id="u-login" href="#">登&nbsp;&nbsp;录</a></div>
+						</div>
+					</form>
+				</div>		
+			</div><!--article-->
+
+			<div class="aside">
+				<div class="reg-line reg-r">
+				>还没有账号?
+				<a href="/user/reg">立即注册</a>
+				</div>
+			</div>
+			
+			<div class="content">
+				<div class="footer">
+					<div class="copyright">© 2014 kindleyo.com, all rights reserved</div>
+					<div class="listen"><a href="#">关于看雨</a>·<a href="#">相关声明</a>·<a href="#">广告投放</a>·<a href="#">帮助推广</a></div>
+				</div>
+			</div>
+		</div>
+		<script>
+			$('#u-login').click(function(){
+				var m  = $('#mail').val();			
+				var mp = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+.com+/;
+				var p  = $('#pwd').val();
+				var pp = /^[0-9A-Za-z_]{6,16}$/;
+				if(!mp.test(m)){
+					$('#m-msg').html('邮箱为空或格式错误');
+					return;
+				}else{$('#m-msg').html('');}			
+				if(!pp.test(p)){
+					$('#p-msg').html('密码长度6-16');
+					return;
+				}else{$('#p-msg').html('');}
+				$.ajax({
+					cache: false,
+					type: "POST",
+					url:"/user/login",
+					data:$('#lform').serialize(),
+					async: false,
+					success: function(msg) {
+						switch(parseInt(msg)){
+							case 1: $('#m-msg').html('邮箱为空或格式错误');break;
+							case 2: $('#m-msg').html('邮箱不存在');break;
+							case 3: $('#p-msg').html('密码错误');break;
+							case 4: window.location.href='/';break;
+						}
+					}
+				});
+			});
+		</script>
